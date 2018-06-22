@@ -1,0 +1,96 @@
+var openpgp = require('openpgp');
+var fs = require('fs');
+
+var privKey = `-----BEGIN PGP PRIVATE KEY BLOCK-----
+Version: OpenPGP.js v3.0.11
+Comment: https://openpgpjs.org
+
+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
+0n4=
+=6B3y
+-----END PGP PRIVATE KEY BLOCK-----
+`;
+
+var bobEncryptedMessage = `-----BEGIN PGP MESSAGE-----
+Version: OpenPGP.js v3.0.11
+Comment: https://openpgpjs.org
+
+wcBMAxWSsEE32apqAQf+IkTPl7PgnQyBQzYNa9ai3NSeAYdYlOKIZIUxjMAY
+zuNiR0puNWWO6Wp9XQtBLwE9hA4rBa6ZhwMtMre+OESEfWi12n5KqI+83loY
+0ISeqtsOww1ogX8uNuWEEq8e4k27WL4WG9rPdFE2gePxViNcw8ukzeepl27y
+r4hLiGnuWHdgq7C6kX54XzIFOg/6qBsEtkhVERMjT5aJDrwvIWAeQ/mWAYSD
+ufB6IH9vyBRvSVL6Aw6kf6q6PdGcreZUDbcIilGA2r7da+d2qOIzPrVXtHJg
+u9YzOG7UfSBFzQu6uKItaKvfnB27rGks+AGbtM6SKuNhlpwULjV52x2osdar
+3tJeAfmRvA7O4FsFabtUYB2XHpHSeT6aTznxlc/S7jFro9TzLYRQ3oBI8tV/
+/nZ/QAiQcf1MKu9KaXEGEMh73YsqpvKN7Rss2an02peypqeb5YNzNsm/PVkr
+Ob4wv5Q/Yg==
+=o7hM
+-----END PGP MESSAGE-----
+`;
+
+var key = openpgp.key.readArmored(privKey).keys[0];
+key.decrypt('secret');
+
+var options = {
+    message: openpgp.message.readArmored(bobEncryptedMessage),
+    privateKey: key
+};
+openpgp.decrypt(options).then(function(decryptedMessage) {
+    console.log(decryptedMessage.data);
+});
